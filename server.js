@@ -6,18 +6,6 @@ const path = require('path');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
-// Import routes
-const supplierRoutes = require('./src/routes/supplierRoutes');
-const productRoutes = require('./src/routes/productRoutes');
-const dropshipperRoutes = require('./src/routes/dropshipperRoutes');
-const orderRoutes = require('./src/routes/orderRoutes');
-const inventoryRoutes = require('./src/routes/inventoryRoutes');
-const paymentRoutes = require('./src/routes/paymentRoutes');
-const employeeRoutes = require('./src/routes/employeeRoutes');
-const sourcingAgentRoutes = require('./src/routes/sourcingAgentRoutes');
-const shippingRoutes = require('./src/routes/shippingRoutes');
-const variationRoutes = require('./src/routes/variationRoutes');
-
 // Initialize express app
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -44,17 +32,22 @@ app.get('/', (req, res) => {
   res.json({ message: 'Welcome to TurkShipGlobal API' });
 });
 
-// API routes
-app.use('/api/suppliers', supplierRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/dropshippers', dropshipperRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/inventory', inventoryRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/employees', employeeRoutes);
-app.use('/api/sourcing-agents', sourcingAgentRoutes);
-app.use('/api/shipping', shippingRoutes);
-app.use('/api/variations', variationRoutes);
+// API routes - Basitleştirilmiş
+app.get('/api/suppliers', (req, res) => {
+  res.json({ message: 'Suppliers API endpoint' });
+});
+
+app.get('/api/products', (req, res) => {
+  res.json({ message: 'Products API endpoint' });
+});
+
+app.get('/api/dropshippers', (req, res) => {
+  res.json({ message: 'Dropshippers API endpoint' });
+});
+
+app.get('/api/orders', (req, res) => {
+  res.json({ message: 'Orders API endpoint' });
+});
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
