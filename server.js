@@ -25,23 +25,23 @@ const variationRoutes = require('./src/routes/variationRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// i18next setup
-i18next
-  .use(i18nextBackend)
-  .use(i18nextMiddleware.LanguageDetector)
-  .init({
-    backend: {
-      loadPath: path.join(__dirname, '../frontend/public/locales/{{lng}}/{{ns}}.json'),
-    },
-    fallbackLng: 'en',
-    preload: ['en', 'tr'],
-    ns: ['common'],
-    defaultNS: 'common',
-    detection: {
-      order: ['querystring', 'cookie', 'header'],
-      caches: ['cookie'],
-    },
-  });
+// i18next setup - Geçici olarak devre dışı bırakıyoruz
+// i18next
+//   .use(i18nextBackend)
+//   .use(i18nextMiddleware.LanguageDetector)
+//   .init({
+//     backend: {
+//       loadPath: path.join(__dirname, '../frontend/public/locales/{{lng}}/{{ns}}.json'),
+//     },
+//     fallbackLng: 'en',
+//     preload: ['en', 'tr'],
+//     ns: ['common'],
+//     defaultNS: 'common',
+//     detection: {
+//       order: ['querystring', 'cookie', 'header'],
+//       caches: ['cookie'],
+//     },
+//   });
 
 // Middleware
 app.use(cors());
@@ -51,7 +51,8 @@ app.use(morgan('dev'));
 app.use(helmet({
   contentSecurityPolicy: false,
 }));
-app.use(i18nextMiddleware.handle(i18next));
+// i18next middleware'ini geçici olarak devre dışı bırakıyoruz
+// app.use(i18nextMiddleware.handle(i18next));
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/turkshipglobal', {
