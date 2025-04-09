@@ -5,9 +5,6 @@ const cors = require('cors');
 const path = require('path');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const i18next = require('i18next');
-const i18nextMiddleware = require('i18next-http-middleware');
-const i18nextBackend = require('i18next-fs-backend');
 
 // Import routes
 const supplierRoutes = require('./src/routes/supplierRoutes');
@@ -25,24 +22,6 @@ const variationRoutes = require('./src/routes/variationRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// i18next setup - Geçici olarak devre dışı bırakıyoruz
-// i18next
-//   .use(i18nextBackend)
-//   .use(i18nextMiddleware.LanguageDetector)
-//   .init({
-//     backend: {
-//       loadPath: path.join(__dirname, '../frontend/public/locales/{{lng}}/{{ns}}.json'),
-//     },
-//     fallbackLng: 'en',
-//     preload: ['en', 'tr'],
-//     ns: ['common'],
-//     defaultNS: 'common',
-//     detection: {
-//       order: ['querystring', 'cookie', 'header'],
-//       caches: ['cookie'],
-//     },
-//   });
-
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -51,8 +30,6 @@ app.use(morgan('dev'));
 app.use(helmet({
   contentSecurityPolicy: false,
 }));
-// i18next middleware'ini geçici olarak devre dışı bırakıyoruz
-// app.use(i18nextMiddleware.handle(i18next));
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/turkshipglobal', {
@@ -61,6 +38,11 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/turkshipg
 })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
+
+// Basic route for testing
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to TurkShipGlobal API' });
+});
 
 // API routes
 app.use('/api/suppliers', supplierRoutes);
